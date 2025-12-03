@@ -45,5 +45,5 @@ export const {
   useStorage,
   useSelf,
 } = createRoomContext<any, Storage>(createClient({
-  publicApiKey: "pk_dev_7sxYD8y7aQBB9YC58plmld4DCET6XdRXWuD7OmnTrBMsveFIIDIZDPHy1c6VUO0f",
+    authEndpoint: "/api/liveblocks-auth",
 }));

@@ -2,22 +2,19 @@
 
 import { RoomProvider } from "@/liveblocks.config";
 import { ClientSideSuspense } from "@liveblocks/react";
-import { LiveList } from "@liveblocks/client"; // Import at the top!
-import { use } from "react"; // Needed to unwrap params
+import { LiveList } from "@liveblocks/client"; 
+import { use } from "react";
 import dynamic from "next/dynamic";
 
-// FIX 1: Dynamic Import with SSR disabled
-// This prevents the "window is not defined" error by ignoring this component on the server
+// ⚠️ THIS IS THE CRITICAL PART
+// We tell Next.js: "Load this component ONLY in the browser"
+// We also give it a path string, NOT an import statement at the top
 const CollaborativeEditor = dynamic(
-  () => import("@/app/components/CollaborativeEditor"),
-  { 
-    ssr: false,
-    loading: () => <div className="text-white p-10">Loading Editor...</div>
-  }
+  () => import("@/app/components/CollaborativeEditor"), 
+  { ssr: false } // <--- Disables server-side rendering for this component
 );
 
 export default function RoomPage({ params }: { params: Promise<{ id: string }> }) {
-  // FIX 2: Unwrap the params Promise using React.use()
   const { id } = use(params);
 
   return (
@@ -28,10 +25,10 @@ export default function RoomPage({ params }: { params: Promise<{ id: string }> }
             currentTurnUserId: null, 
             turnExpiresAt: 0,
             teamScore: 0,
-            logs: new LiveList([]) // FIX 3: Pass empty array to be safe
+            logs: new LiveList([]) 
         }}
     >
-      <ClientSideSuspense fallback={<div className="text-white p-10">Connecting to Room...</div>}>
+      <ClientSideSuspense fallback={<div className="text-white p-10">Connecting...</div>}>
         {() => <CollaborativeEditor />}
       </ClientSideSuspense>
     </RoomProvider>
