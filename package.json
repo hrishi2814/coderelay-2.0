@@ -9,6 +9,11 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@liveblocks/client": "^3.11.0",
+    "@liveblocks/node": "^3.11.0",
+    "@liveblocks/react": "^3.11.0",
+    "@liveblocks/yjs": "^3.11.0",
+    "@monaco-editor/react": "^4.7.0",
     "@types/uuid": "^10.0.0",
     "better-sqlite3": "^12.5.0",
     "bullmq": "^5.65.0",
@@ -17,7 +22,10 @@
     "next": "16.0.4",
     "react": "19.2.0",
     "react-dom": "19.2.0",
-    "uuid": "^13.0.0"
+    "uuid": "^13.0.0",
+    "y-monaco": "^0.1.6",
+    "y-protocols": "^1.0.6",
+    "yjs": "^13.6.27"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
