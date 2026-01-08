@@ -44,6 +44,7 @@ export const {
   useUpdateMyPresence,
   useStorage,
   useSelf,
+  useMutation,
 } = createRoomContext<any, Storage>(createClient({
     authEndpoint: "/api/liveblocks-auth",
 }));

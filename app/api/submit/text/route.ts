@@ -1,20 +1,22 @@
-import { runSubmission } from "@/app/lib/executor";
-import { NextRequest, NextResponse } from "next/server";
+// app/api/submit/text/route.ts
+import { executeCode } from "@/app/lib/executor";
+import { NextRequest, NextResponse } from "next/server"; // Import NextResponse
 
 export async function POST(req: NextRequest) {
-    try {
-        const body = await req.json();
-        const { code, problemId } = body;
+  try {
+      const body = await req.json();
+      const { code, input } = body; 
 
-        if (!code || !problemId) {
-            return NextResponse.json({ error: "Missing code or problemId" }, { status: 400 });
-        }
+      // validation: Only fail if code is genuinely missing (null/undefined)
+      // Allow empty string "" (user might want to run empty code)
+      if (typeof code !== 'string') {
+          return NextResponse.json({ error: "Code is required" }, { status: 400 });
+      }
 
-        const result = await runSubmission(problemId, code);
-        return NextResponse.json(result);
-
-    } catch (error) {
-        console.error("Submission Error:", error);
-        return NextResponse.json({ error: "Server Error" }, { status: 500 });
-    }
+      const result = await executeCode(code, 'python', input || ""); 
+      
+      return NextResponse.json(result);
+  } catch (err) {
+      return NextResponse.json({ error: "Server Parse Error" }, { status: 400 });
+  }
 }
